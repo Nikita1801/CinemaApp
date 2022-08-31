@@ -17,8 +17,11 @@ protocol MoviePresenterProtocol{
 }
 
 
+
+
 final class MoviePresenter{
     
+
     private weak var movieViewController: MovieViewControllerProtocol?
     private var model: ModelProtocol
     private var moviesArray: [MovieModel] = []
@@ -65,7 +68,9 @@ extension MoviePresenter: MoviePresenterProtocol{
     }
     
     func profileButtonTapped(){
+        
         print("ProfileButtonTapped")
     }
     
 }
+

@@ -13,8 +13,15 @@ protocol MovieViewControllerProtocol: AnyObject{
 
 }
 
+protocol MovieViewControllerDelegate: AnyObject{
+    
+    func didTapProfileButton()
+    
+}
+
 final class MovieViewController: UIViewController {
     
+    weak var delegate: MovieViewControllerDelegate?
     private var presenter: MoviePresenterProtocol?
     private var movieInfo: [MovieModel] = []
 
@@ -57,18 +64,21 @@ final class MovieViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.isScrollEnabled = true
         collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.backgroundColor = UIColor.background
         
         return collectionView
     }()
     
     @objc private func searchButtonTapped(){
+        
         presenter?.searchButtonTapped()
     }
     
     @objc private func profileButtonTapped(_ sender: UIBarButtonItem){
-        let profileViewController = ProfileViewController()
-        navigationController?.pushViewController(profileViewController, animated: true)
-//        presenter?.profileButtonTapped()
+//        let profileViewController = ProfileViewController()
+//        navigationController?.pushViewController(profileViewController, animated: true)
+        presenter?.profileButtonTapped()
+        delegate?.didTapProfileButton()
     }
     
 

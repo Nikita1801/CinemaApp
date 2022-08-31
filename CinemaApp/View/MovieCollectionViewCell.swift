@@ -117,11 +117,11 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         addSubview(posterImage)
         addSubview(infoBackground)
         addSubview(nameLabel)
-        contentView.addSubview(genreLabel)
-        contentView.addSubview(yearLabel)
-        contentView.addSubview(runtimeLabel)
-        contentView.addSubview(ratingImage)
-        contentView.addSubview(ratingLabel)
+        addSubview(genreLabel)
+        addSubview(yearLabel)
+        addSubview(runtimeLabel)
+        addSubview(ratingImage)
+        addSubview(ratingLabel)
     }
     
     // MARK: - Constraints
