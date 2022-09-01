@@ -89,18 +89,18 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     }()
     
     
-    func set(name: String, genge: String, year: String, runtime: String, rating: String, poster: String){
-        nameLabel.text = name
-        genreLabel.text = "\(genge) ·"
-        yearLabel.text = year
-        runtimeLabel.text = runtime
-        ratingLabel.text = rating
+    func set(movie: MovieModel){
+        nameLabel.text = movie.title
+        genreLabel.text = "\(movie.genre) ·"
+        yearLabel.text = movie.year
+        runtimeLabel.text = movie.runtime
+        ratingLabel.text = movie.ratings
         
-        getPosterImage(posterURL: poster, imageView: posterImage)
+        getPosterImage(posterURL: movie.poster, imageView: posterImage)
     }
     
     // MARK: - Load image by URL
-    func getPosterImage(posterURL: String, imageView: UIImageView){
+    private func getPosterImage(posterURL: String, imageView: UIImageView){
         if let url = URL(string: posterURL) {
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
                 guard let data = data, error == nil else { return }
@@ -113,7 +113,7 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configureView(){
+    private func configureView(){
         addSubview(posterImage)
         addSubview(infoBackground)
         addSubview(nameLabel)

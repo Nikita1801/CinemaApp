@@ -21,12 +21,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowSceen)
         window.windowScene = windowSceen
         
-        let navigationController = UINavigationController()
-        let movieViewController = MovieViewController()
-        navigationController.viewControllers = [movieViewController]
+        let containerViewController = ContainerViewController()
+
         
-        
-        window.rootViewController = navigationController
+        window.rootViewController = containerViewController
         self.window = window
         window.makeKeyAndVisible()
     }
