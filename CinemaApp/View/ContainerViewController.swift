@@ -9,25 +9,20 @@ import UIKit
 
 final class ContainerViewController: UIViewController {
     
-    enum ProfileState{
-        case opened
-        case closed
-    }
-    
-    private var profileState: ProfileState = .closed
-    
     private let profileViewController = ProfileViewController()
     private let movieViewController = MovieViewController()
     private var navigationViewController = UINavigationController()
-
+    private let darkView = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         addChildVCs()
     }
     
     private func addChildVCs(){
         // profile
+        profileViewController.delegate = self
         addChild(profileViewController)
         view.addSubview(profileViewController.view)
         profileViewController.didMove(toParent: self)
@@ -43,46 +38,27 @@ final class ContainerViewController: UIViewController {
 }
 
 extension ContainerViewController: MovieViewControllerDelegate{
+    
+    /// openning the side-menu
     func didTapProfileButton() {
         // Animate the side-menu
-        print("didTap")
-        
-        switch profileState{
-        case .closed:
-            //open side-menu
-            
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut) { [self] in
-                 
-                self.navigationViewController.view.frame.origin.x = self.movieViewController.view.frame.size.width - 70
-//                let darkView = UIView(frame: UIScreen.main.bounds)
-//                darkView.backgroundColor = UIColor.black
-//                darkView.alpha = 0.2
-//                navigationViewController.view = darkView
-                
-                
-            } completion: { [weak self] done in
-                if done {
-                    self?.profileState = .opened
-                }
-            }
-
-            
-        case .opened:
-            //close side-menu
-            
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut) { [self] in
-                 
-                self.navigationViewController.view.frame.origin.x = 0
-//                let darkView = UIView(frame: UIScreen.main.bounds)
-//                darkView.backgroundColor = UIColor.black
-//                darkView.alpha = 0.1
-//                navigationViewController.view = darkView
-                
-            } completion: { [weak self] done in
-                if done {
-                    self?.profileState = .closed
-                }
-            }
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut) { [self] in
+            self.navigationViewController.view.frame.origin.x = self.movieViewController.view.frame.size.width - 70
+            darkView.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+            darkView.frame = self.navigationViewController.view.bounds
+            navigationViewController.view.addSubview(darkView)
         }
     }
 }
+
+extension ContainerViewController: ProviewViewControllerDelegate{
+    /// closing the side-menu
+    func closeProfile() {
+        // Animate the side-menu
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut) { [self] in
+            self.navigationViewController.view.frame.origin.x = 0
+            darkView.removeFromSuperview()
+        }
+    }
+}
+

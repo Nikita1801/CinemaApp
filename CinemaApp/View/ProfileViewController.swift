@@ -7,15 +7,31 @@
 
 import UIKit
 
-final class ProfileViewController: UIViewController {
+protocol ProviewViewControllerDelegate: AnyObject{
+    /// closing profile side-menu
+    func closeProfile()
+}
 
+final class ProfileViewController: UIViewController {
+    
+    weak var delegate: ProviewViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = UIColor.background
         
         configureView()
     }
+    
+    private let closeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.layer.cornerRadius = 20
+        button.tintColor = UIColor.title
+        button.backgroundColor = UIColor.backgroundLight
+        button.addTarget(self, action: #selector(didTapCloseButton), for: .touchUpInside)
+        
+        return button
+    }()
     
     private let nameLabel: UILabel = {
         let label = UILabel()
@@ -40,20 +56,18 @@ final class ProfileViewController: UIViewController {
     private let photo: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "photo")
-        imageView.layer.borderWidth = 1
-        imageView.layer.masksToBounds = false
+        imageView.layer.borderWidth = 5
         imageView.layer.borderColor = UIColor.backgroundLight.cgColor
-        imageView.layer.cornerRadius = imageView.frame.height/2
-        imageView.clipsToBounds = true
-//        imageView.layer.maskedCorners =
+        imageView.layer.cornerRadius = 100
+        imageView.layer.masksToBounds = true
         
         return imageView
     }()
-
+    
     private let phoneLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.text
-        label.font = UIFont.systemFont(ofSize: 16, weight: .light)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .light)
         label.text = "+7(916) 968-81-12"
         label.textAlignment = .center
         
@@ -63,30 +77,38 @@ final class ProfileViewController: UIViewController {
     private let emailLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.text
-        label.font = UIFont.systemFont(ofSize: 20, weight: .light)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .light)
         label.text = "nikita-makarevich@mail.ru"
         label.textAlignment = .center
         
         return label
     }()
     
-    private let phoneImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "phone")
-        imageView.backgroundColor = UIColor.backgroundLight
-        imageView.tintColor = UIColor.title
-//        imageView.layer.maskedCorners =
+    private let phoneButton: UIButton = {
+        let button = UIButton()
+        let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .light, scale: .large)
+        button.setImage(UIImage(systemName: "phone", withConfiguration: config), for: .normal)
+        button.backgroundColor = UIColor.backgroundLight
+        button.tintColor = UIColor.title
+        button.contentMode = .center
+        button.layer.borderColor = UIColor.backgroundLight.cgColor
+        button.layer.cornerRadius = 30
+        button.layer.masksToBounds = true
         
-        return imageView
+        return button
     }()
-    private let messageImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "envelope")
-        imageView.backgroundColor = UIColor.backgroundLight
-        imageView.tintColor = UIColor.title
-//        imageView.layer.maskedCorners =
+    
+    private let messageButton: UIButton = {
+        let button = UIButton()
+        let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .light, scale: .large)
+        button.setImage(UIImage(systemName: "envelope", withConfiguration: config), for: .normal)
+        button.backgroundColor = UIColor.backgroundLight
+        button.tintColor = UIColor.title
+        button.contentMode = .center
+        button.layer.cornerRadius = 30
+        button.layer.masksToBounds = true
         
-        return imageView
+        return button
     }()
     
     private let stackView: UIStackView = {
@@ -96,67 +118,79 @@ final class ProfileViewController: UIViewController {
         return stackView
     }()
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        photo.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+    @objc func didTapCloseButton(){
+        delegate?.closeProfile()
     }
 }
 
 private extension ProfileViewController{
     
     private func configureView(){
+        view.backgroundColor = UIColor.background
+        
+        view.addSubview(closeButton)
         view.addSubview(nameLabel)
         view.addSubview(bioLabel)
         view.addSubview(photo)
         view.addSubview(phoneLabel)
         view.addSubview(emailLabel)
-        stackView.addSubview(phoneImage)
-        stackView.addSubview(messageImage)
+        stackView.addSubview(phoneButton)
+        stackView.addSubview(messageButton)
         view.addSubview(stackView)
         
         setConstraints()
     }
     
     private func setConstraints(){
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         bioLabel.translatesAutoresizingMaskIntoConstraints = false
         photo.translatesAutoresizingMaskIntoConstraints = false
         phoneLabel.translatesAutoresizingMaskIntoConstraints = false
         emailLabel.translatesAutoresizingMaskIntoConstraints = false
-        phoneImage.translatesAutoresizingMaskIntoConstraints = false
-        messageImage.translatesAutoresizingMaskIntoConstraints = false
+        phoneButton.translatesAutoresizingMaskIntoConstraints = false
+        messageButton.translatesAutoresizingMaskIntoConstraints = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         
-        
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 240),
+            closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
+            closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -90),
+            closeButton.heightAnchor.constraint(equalToConstant: 40),
+            closeButton.widthAnchor.constraint(equalToConstant: 40),
+            
+            nameLabel.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 170),
             nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -35),
             
             bioLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
             bioLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -35),
             
-            photo.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 10),
+            photo.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 15),
             photo.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -35),
+            photo.heightAnchor.constraint(equalToConstant: 200),
+            photo.widthAnchor.constraint(equalToConstant: 200),
             
-            phoneLabel.topAnchor.constraint(equalTo: photo.bottomAnchor, constant: 10),
+            phoneLabel.topAnchor.constraint(equalTo: photo.bottomAnchor, constant: 20),
             phoneLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -35),
             
             emailLabel.topAnchor.constraint(equalTo: phoneLabel.bottomAnchor, constant: 10),
             emailLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -35),
             
-            stackView.topAnchor.constraint(equalTo: emailLabel.bottomAnchor, constant: 30),
+            stackView.topAnchor.constraint(equalTo: emailLabel.bottomAnchor, constant: 20),
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -35),
             
-            phoneImage.topAnchor.constraint(equalTo: stackView.topAnchor),
-            phoneImage.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
-            phoneImage.bottomAnchor.constraint(equalTo: stackView.bottomAnchor),
+            phoneButton.topAnchor.constraint(equalTo: stackView.topAnchor),
+            phoneButton.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+            phoneButton.bottomAnchor.constraint(equalTo: stackView.bottomAnchor),
+            phoneButton.heightAnchor.constraint(equalToConstant: 60),
+            phoneButton.widthAnchor.constraint(equalToConstant: 60),
             
-            messageImage.topAnchor.constraint(equalTo: stackView.topAnchor),
-            messageImage.leadingAnchor.constraint(equalTo: phoneImage.trailingAnchor, constant: 30),
-            messageImage.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
-            messageImage.bottomAnchor.constraint(equalTo: stackView.bottomAnchor)
+            messageButton.topAnchor.constraint(equalTo: stackView.topAnchor),
+            messageButton.leadingAnchor.constraint(equalTo: phoneButton.trailingAnchor, constant: 30),
+            messageButton.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+            messageButton.bottomAnchor.constraint(equalTo: stackView.bottomAnchor),
+            messageButton.heightAnchor.constraint(equalToConstant: 60),
+            messageButton.widthAnchor.constraint(equalToConstant: 60)
         ])
     }
 }
