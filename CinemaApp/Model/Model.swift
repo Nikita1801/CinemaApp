@@ -8,12 +8,12 @@
 import Foundation
 
 protocol ModelProtocol{
-    func getMovies(completion: @escaping(MovieData) -> Void)
+    func getMovies(completion: @escaping([MovieData]) -> Void)
 }
 
 final class Model{
     private var network: MovieServiceProtocol
-    private var movieArray = ["Free Guy",
+    private let movieArray = ["Free Guy",
                               "Star Wars: Episode VIII - The Last Jedi",
                               "Dune",
                               "Green Book",
@@ -55,17 +55,36 @@ final class Model{
 }
 
 extension Model: ModelProtocol{
-    func getMovies(completion: @escaping (MovieData) -> Void) {
+    func getMovies(completion: @escaping ([MovieData]) -> Void) {
         let dispatchGroup = DispatchGroup()
-        dispatchGroup.enter()
+        var movies: [MovieData] = []
         
-        DispatchQueue.global().asyncAfter(deadline: .now()) {
-            for movie in self.movieArray{
+        DispatchQueue.global().async { [weak self] in
+            guard let self = self else { return }
+            self.movieArray.forEach { movie in
+                dispatchGroup.enter()
                 let rightMovieName = movie.replacingOccurrences(of: " ", with: "%20")
-                self.network.getMovie(title: rightMovieName, completionHandler: completion)
-//                dispatchGroup.leave()
+                self.network.getMovie(title: rightMovieName) { movie in
+                    if let movie = movie{
+                        movies.append(movie)
+                        print(movies.count)
+                    }
+                    dispatchGroup.leave()
+                }
             }
         }
+        
+        dispatchGroup.notify(queue: .main) {
+            completion(movies)
+        }
+        
+//        DispatchQueue.global().asyncAfter(deadline: .now()) {
+//            for movie in self.movieArray{
+//                let rightMovieName = movie.replacingOccurrences(of: " ", with: "%20")
+//                self.network.getMovie(title: rightMovieName, completionHandler: completion)
+////                dispatchGroup.leave()
+//            }
+//        }
         
     }
 }

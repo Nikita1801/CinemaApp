@@ -80,7 +80,6 @@ final class MovieViewController: UIViewController {
     }
     
     @objc private func profileButtonTapped(_ sender: UIBarButtonItem){
-        //        presenter?.profileButtonTapped()
         delegate?.didTapProfileButton()
     }
     
@@ -107,7 +106,6 @@ extension MovieViewController: UICollectionViewDelegateFlowLayout, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movieDetails = movieInfo[indexPath.row]
-        print(movieDetails.title)
         delegate?.didTapMovie(movieInfo: movieDetails)
 
         
@@ -119,25 +117,19 @@ extension MovieViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 extension MovieViewController: MovieViewControllerProtocol{
     
     func updateMovies(_ movies: [MovieModel]) {
-        let dispatchGroup = DispatchGroup()
-        
-        dispatchGroup.notify(queue: .main) {
-            self.movieInfo = movies
-            print(self.movieInfo)
-            self.moviesCollectionView.reloadData()
-        }
-
+            movieInfo = movies
+            moviesCollectionView.reloadData()
     }
 }
 
 
 private extension MovieViewController{
     
-    private func getMovieInfo(){
+    func getMovieInfo(){
         presenter?.getMovies()
     }
     
-    private func configureView(){
+    func configureView(){
         moviesCollectionView.delegate = self
         moviesCollectionView.dataSource = self
         
@@ -150,7 +142,7 @@ private extension MovieViewController{
     }
     
     // MARK: - Constraints
-    private func setConstraints() {
+    func setConstraints() {
         
         moviesCollectionView.translatesAutoresizingMaskIntoConstraints = false
         

@@ -34,7 +34,6 @@ final class DetailsMovieView: UIView {
         starRating.text = ratingsDisplay[(Int(Double(movieInfo.ratings) ?? 8))/2 - 1]
         runtimeLabel.text = movieInfo.runtime[1]
         ageRatingImageView.image = UIImage(named: "\(movieInfo.rated).image")
-        print(movieInfo.rated)
         genreInfoLabel.text = movieInfo.genre
         directorsInfoLabel.text = movieInfo.directors
         starsInfoLabel.text = movieInfo.actors
@@ -61,7 +60,6 @@ final class DetailsMovieView: UIView {
         return label
     }()
     
-    //    private let ratingBar:
     private let starRating: UILabel = {
         let label = UILabel()
         label.text = "★★★☆☆"
@@ -91,6 +89,7 @@ final class DetailsMovieView: UIView {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "R.image")
         imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
         
         return imageView
     }()
@@ -176,7 +175,6 @@ final class DetailsMovieView: UIView {
         return label
     }()
     
-    // Plot
     private let plotLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.text
@@ -198,7 +196,7 @@ final class DetailsMovieView: UIView {
 
 private extension DetailsMovieView{
     // MARK: - Load image by URL
-    private func getPosterImage(posterURL: String, imageView: UIImageView){
+    func getPosterImage(posterURL: String, imageView: UIImageView){
         if let url = URL(string: posterURL) {
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
                 guard let data = data, error == nil else { return }
@@ -210,10 +208,9 @@ private extension DetailsMovieView{
             task.resume()
         }
     }
-    
 
     
-    private func configureView(){
+    func configureView(){
         backgroundColor = UIColor.background
         layer.cornerRadius = 5
         
@@ -241,7 +238,7 @@ private extension DetailsMovieView{
         setConstraints()
     }
     
-    private func setConstraints(){
+    func setConstraints(){
         stackView.translatesAutoresizingMaskIntoConstraints = false
         runtimeLabel.translatesAutoresizingMaskIntoConstraints = false
         starRating.translatesAutoresizingMaskIntoConstraints = false
@@ -278,9 +275,9 @@ private extension DetailsMovieView{
             posterImage.trailingAnchor.constraint(equalTo: trailingAnchor),
             posterImage.heightAnchor.constraint(equalToConstant: 200),
             
-            ageRatingImageView.topAnchor.constraint(equalTo: posterImage.topAnchor, constant: 10),
-            ageRatingImageView.trailingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 10),
             ageRatingImageView.heightAnchor.constraint(equalToConstant: 40),
+            ageRatingImageView.topAnchor.constraint(equalTo: posterImage.topAnchor, constant: 10),
+            ageRatingImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 10),
             
             // genre
             genreStackView.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 40),
@@ -317,13 +314,12 @@ private extension DetailsMovieView{
             plotLabel.topAnchor.constraint(equalTo: starsStackView.bottomAnchor, constant: 60),
             plotLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             plotLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-//            plotLabel.heightAnchor.constraint(equalTo: starsStackView.bottomAnchor - 60)
-//            plotLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)
+            plotLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -20)
         ])
     }
     
     /// draw dashed line (- - - -)
-    private func drawDashedLine(){
+    func drawDashedLine(){
         //Create a CAShapeLayer
         let shapeLayer = CAShapeLayer()
         shapeLayer.strokeColor = UIColor.dashedLine.cgColor
@@ -339,7 +335,7 @@ private extension DetailsMovieView{
     }
     
     
-    private func updateMask() {
+    func updateMask() {
         let pathOne = UIBezierPath()
         pathOne.move(to: bounds.origin)
         let leftCorner = CGPoint(x: bounds.minX, y: bounds.minY)
@@ -384,8 +380,6 @@ private extension DetailsMovieView{
 //        let combinedPath = CGMutablePath()
 //        combinedPath.addPath(pathOne.cgPath)
 //        combinedPath.addPath(pathTwo.cgPath)
-        
-        
 
     }
 }

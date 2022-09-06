@@ -20,22 +20,6 @@ final class ContainerViewController: UIViewController {
         
         addChildVCs()
     }
-    
-    private func addChildVCs(){
-        // profile
-        profileViewController.delegate = self
-        addChild(profileViewController)
-        view.addSubview(profileViewController.view)
-        profileViewController.didMove(toParent: self)
-        
-        // movie screen
-        movieViewController.delegate = self
-        let navigationVC = UINavigationController(rootViewController: movieViewController)
-        addChild(navigationVC)
-        view.addSubview(navigationVC.view)
-        navigationVC.didMove(toParent: self)
-        self.navigationViewController = navigationVC
-    }
 }
 
 extension ContainerViewController: MovieViewControllerDelegate{
@@ -71,11 +55,7 @@ extension ContainerViewController: MovieViewControllerDelegate{
         detailsView.addGestureRecognizer(tap)
     }
     
-    /// hiding view when tap
-    @objc private func removeDetailsView(){
-        detailsView.removeFromSuperview()
-        darkView.removeFromSuperview()
-    }
+
 }
 
 extension ContainerViewController: ProfileViewControllerDelegate{
@@ -90,7 +70,25 @@ extension ContainerViewController: ProfileViewControllerDelegate{
 }
 
 private extension ContainerViewController{
-    private func setCostraints(){
+    
+    /// configure views
+    func addChildVCs(){
+        // profile
+        profileViewController.delegate = self
+        addChild(profileViewController)
+        view.addSubview(profileViewController.view)
+        profileViewController.didMove(toParent: self)
+        
+        // movie screen
+        movieViewController.delegate = self
+        let navigationVC = UINavigationController(rootViewController: movieViewController)
+        addChild(navigationVC)
+        view.addSubview(navigationVC.view)
+        navigationVC.didMove(toParent: self)
+        self.navigationViewController = navigationVC
+    }
+    
+    func setCostraints(){
         detailsView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -101,6 +99,11 @@ private extension ContainerViewController{
             detailsView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -25)
             
         ])
+    }
+    /// hiding view when tap
+    @objc func removeDetailsView(){
+        detailsView.removeFromSuperview()
+        darkView.removeFromSuperview()
     }
 }
 

@@ -12,8 +12,6 @@ protocol MoviePresenterProtocol{
     func getMovies()
     /// Открытие поиска
     func searchButtonTapped()
-    /// Открытие профиля
-    func profileButtonTapped()
 }
 
 
@@ -35,7 +33,11 @@ extension MoviePresenter: MoviePresenterProtocol{
     func getMovies() {
         model.getMovies { [weak self] movie in
             guard let self = self else { return }
-            self.moviesArray.append(self.convertValues(movie: movie))
+            print("__",movie.count)
+            movie.forEach { movie in
+                self.moviesArray.append(self.convertValues(movie: movie))
+            }
+//            self.moviesArray.append(self.convertValues(movie: movie))
             DispatchQueue.main.async {
                 self.movieViewController?.updateMovies(self.moviesArray)
             }
@@ -44,11 +46,6 @@ extension MoviePresenter: MoviePresenterProtocol{
     
     func searchButtonTapped() {
         print("SearchButtonTapped")
-    }
-    
-    func profileButtonTapped(){
-        
-        print("ProfileButtonTapped")
     }
     
 }

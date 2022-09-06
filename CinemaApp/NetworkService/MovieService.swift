@@ -11,30 +11,36 @@ import Foundation
 
 protocol MovieServiceProtocol{
     
-    func getMovie<T: Decodable>(title: String, completionHandler:@escaping (T) -> Void)
+    func getMovie(title: String, completionHandler: @escaping (MovieData?)  -> Void)
 }
 
 class MovieService: MovieServiceProtocol{
     
-    func getMovie<T>(title: String, completionHandler: @escaping (T) -> Void) where T : Decodable {
+    func getMovie(title: String, completionHandler: @escaping (MovieData?) -> Void){
         guard let url = URL(string: "https://www.omdbapi.com/?apikey=e1b20f1b&t=\(title)&plot=full") else{ return }
-        
+
         getRequest(url: url) { data in
-            guard let model = try? JSONDecoder().decode(T.self, from: data)
+            guard let data = data,
+                  let model = try? JSONDecoder().decode(MovieData.self, from: data)
             else{
                 print("Error while decoding")
+                completionHandler(nil)
                 return
             }
             completionHandler(model)
-            
         }
     }
 }
 
 private extension MovieService{
-    func getRequest(url: URL, completion: @escaping (Data)->Void){
+    
+    func getRequest(url: URL, completion: @escaping (Data?)->Void){
         let task = URLSession.shared.dataTask(with: url) { data, _, error in
-            guard let data = data, error == nil else{ return }
+            guard let data = data, error == nil
+            else{
+                completion(nil)
+                return
+            }
             completion(data)
         }
         task.resume()

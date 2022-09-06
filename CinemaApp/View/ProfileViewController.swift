@@ -125,7 +125,7 @@ final class ProfileViewController: UIViewController {
 
 private extension ProfileViewController{
     
-    private func configureView(){
+    func configureView(){
         view.backgroundColor = UIColor.background
         
         view.addSubview(closeButton)
@@ -141,7 +141,7 @@ private extension ProfileViewController{
         setConstraints()
     }
     
-    private func setConstraints(){
+    func setConstraints(){
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         bioLabel.translatesAutoresizingMaskIntoConstraints = false

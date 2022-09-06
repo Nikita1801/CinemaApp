@@ -8,6 +8,11 @@
 import Foundation
 
  // https://www.omdbapi.com/?apikey=e1b20f1b&t=interstellar
+enum CodingKeys: String, Codable{
+    case Title
+    case Year
+}
+
 struct MovieData: Codable{
     let Title: String
     let Year: String
