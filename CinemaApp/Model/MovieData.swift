@@ -15,6 +15,10 @@ struct MovieData: Codable{
     let Runtime: String
     let Poster: String
     let Ratings: [Ratings]
+    let Rated: String
+    let Director: String
+    let Actors: String
+    let Plot: String
 }
 
 struct Ratings: Codable{

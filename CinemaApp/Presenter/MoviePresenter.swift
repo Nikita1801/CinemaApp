@@ -78,9 +78,12 @@ private extension MoviePresenter{
         return MovieModel(title: movie.Title,
                           genre: movie.Genre,
                           year: movie.Year,
-                          runtime: runtime,
+                          runtime: [runtime, movie.Runtime],
                           ratings: firstPartOfRating,
-                          poster: movie.Poster)
+                          poster: movie.Poster,
+                          rated: movie.Rated, directors: movie.Director,
+                          actors: movie.Actors,
+                          plot: movie.Plot)
     }
 }
 

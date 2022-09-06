@@ -24,4 +24,8 @@ extension UIColor{
     static var infoBackground: UIColor{
         return UIColor(named: "infoBackground") ?? UIColor.clear
     }
+    static var dashedLine: UIColor{
+        return UIColor(named: "dashedLine") ?? UIColor.clear
+    }
+    
 }

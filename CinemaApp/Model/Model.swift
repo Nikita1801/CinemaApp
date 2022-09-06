@@ -20,11 +20,32 @@ final class Model{
                               "Avengers: Endgame",
                               "Cruella",
                               "Marvel",
+                              "127 Hours",
                               "wolf of wall street",
                               "Moonlight",
                               "Top Gun: Maverick",
                               "The Suicide Squad",
-                              "Interstellar"
+                              "Interstellar",
+                              "Bullet Train",
+                              "Beast",
+                              "Brighton Rock",
+                              "The ides of March",
+                              "The Tall Man",
+                              "The Descendants",
+                              "I’m Still Here",
+                              "The Raven",
+                              "Lord of War",
+                              "The Hobbit: An Unexpected Journey",
+                              "War Horse",
+                              "Bohemian Rhapsody",
+                              "Hell and Back Again",
+                              "Tinker, Tailor, Soldier, Spy",
+                              "Wonder Woman",
+                              "Us",
+                              "Kingsman: The Secret Service",
+                              "Get Out",
+                              "Titanic",
+                              "Uncharted"
     ]
     
     init(network: MovieServiceProtocol = MovieService()) {
@@ -35,13 +56,17 @@ final class Model{
 
 extension Model: ModelProtocol{
     func getMovies(completion: @escaping (MovieData) -> Void) {
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
         
-        for movie in movieArray{
-            let rightMovieName = movie.replacingOccurrences(of: " ", with: "%20")
-            network.getMovie(title: rightMovieName, completionHandler: completion)
+        DispatchQueue.global().asyncAfter(deadline: .now()) {
+            for movie in self.movieArray{
+                let rightMovieName = movie.replacingOccurrences(of: " ", with: "%20")
+                self.network.getMovie(title: rightMovieName, completionHandler: completion)
+//                dispatchGroup.leave()
+            }
         }
+        
     }
-    
-    
 }
 

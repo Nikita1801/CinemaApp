@@ -17,14 +17,16 @@ protocol MovieServiceProtocol{
 class MovieService: MovieServiceProtocol{
     
     func getMovie<T>(title: String, completionHandler: @escaping (T) -> Void) where T : Decodable {
-        guard let url = URL(string: "https://www.omdbapi.com/?apikey=e1b20f1b&t=\(title)") else{ return }
+        guard let url = URL(string: "https://www.omdbapi.com/?apikey=e1b20f1b&t=\(title)&plot=full") else{ return }
         
         getRequest(url: url) { data in
             guard let model = try? JSONDecoder().decode(T.self, from: data)
             else{
-                fatalError()
+                print("Error while decoding")
+                return
             }
             completionHandler(model)
+            
         }
     }
 }

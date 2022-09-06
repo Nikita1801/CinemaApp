@@ -14,14 +14,18 @@ protocol MovieViewControllerProtocol: AnyObject{
 }
 
 protocol MovieViewControllerDelegate: AnyObject{
-    /// Открытие поиска
+    /// Открытие профиля
     func didTapProfileButton()
+    /// Открытие DetailsView с детальной информацией о фильме
+    func didTapMovie(movieInfo: MovieModel)
 }
+
 
 final class MovieViewController: UIViewController {
     
     weak var delegate: MovieViewControllerDelegate?
     private var presenter: MoviePresenterProtocol?
+    private let detailsView = DetailsMovieView()
     private var movieInfo: [MovieModel] = []
     
     override func viewDidLoad() {
@@ -101,15 +105,28 @@ extension MovieViewController: UICollectionViewDelegateFlowLayout, UICollectionV
         return CGSize(width: view.frame.size.width / 2, height: 320)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieDetails = movieInfo[indexPath.row]
+        print(movieDetails.title)
+        delegate?.didTapMovie(movieInfo: movieDetails)
+
+        
+    }
+    
 }
 
 // MARK: - Updating Data protocol extension
 extension MovieViewController: MovieViewControllerProtocol{
     
     func updateMovies(_ movies: [MovieModel]) {
-        movieInfo = movies
-        print(movieInfo)
-        moviesCollectionView.reloadData()
+        let dispatchGroup = DispatchGroup()
+        
+        dispatchGroup.notify(queue: .main) {
+            self.movieInfo = movies
+            print(self.movieInfo)
+            self.moviesCollectionView.reloadData()
+        }
+
     }
 }
 

@@ -7,14 +7,14 @@
 
 import UIKit
 
-protocol ProviewViewControllerDelegate: AnyObject{
+protocol ProfileViewControllerDelegate: AnyObject{
     /// closing profile side-menu
     func closeProfile()
 }
 
 final class ProfileViewController: UIViewController {
     
-    weak var delegate: ProviewViewControllerDelegate?
+    weak var delegate: ProfileViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +22,7 @@ final class ProfileViewController: UIViewController {
         configureView()
     }
     
-    private let closeButton: UIButton = {
+    private lazy var closeButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
         button.layer.cornerRadius = 20
@@ -159,7 +159,7 @@ private extension ProfileViewController{
             closeButton.heightAnchor.constraint(equalToConstant: 40),
             closeButton.widthAnchor.constraint(equalToConstant: 40),
             
-            nameLabel.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 170),
+            nameLabel.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 100),
             nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -35),
             
             bioLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),

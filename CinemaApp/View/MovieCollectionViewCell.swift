@@ -93,7 +93,7 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         nameLabel.text = movie.title
         genreLabel.text = "\(movie.genre) ·"
         yearLabel.text = movie.year
-        runtimeLabel.text = movie.runtime
+        runtimeLabel.text = movie.runtime[0]
         ratingLabel.text = movie.ratings
         
         getPosterImage(posterURL: movie.poster, imageView: posterImage)
