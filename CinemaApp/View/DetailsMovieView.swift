@@ -331,7 +331,6 @@ private extension DetailsMovieView {
         layer.addSublayer(shapeLayer)
     }
     
-    
     func updateMask() {
         let path = UIBezierPath()
         path.move(to: bounds.origin)
