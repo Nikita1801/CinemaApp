@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol ModelProtocol{
+protocol ModelProtocol {
     func getMovies(completion: @escaping([MovieData]) -> Void)
 }
 
-final class Model{
+final class Model {
     private var network: MovieServiceProtocol
     private let movieArray = ["Free Guy",
                               "Star Wars: Episode VIII - The Last Jedi",
@@ -51,41 +51,27 @@ final class Model{
     init(network: MovieServiceProtocol = MovieService()) {
         self.network = network
     }
-    
 }
 
-extension Model: ModelProtocol{
+extension Model: ModelProtocol {
     func getMovies(completion: @escaping ([MovieData]) -> Void) {
         let dispatchGroup = DispatchGroup()
         var movies: [MovieData] = []
         
-        DispatchQueue.global().async { [weak self] in
-            guard let self = self else { return }
             self.movieArray.forEach { movie in
                 dispatchGroup.enter()
                 let rightMovieName = movie.replacingOccurrences(of: " ", with: "%20")
                 self.network.getMovie(title: rightMovieName) { movie in
                     if let movie = movie{
                         movies.append(movie)
-                        print(movies.count)
                     }
                     dispatchGroup.leave()
                 }
             }
-        }
         
         dispatchGroup.notify(queue: .main) {
             completion(movies)
         }
-        
-//        DispatchQueue.global().asyncAfter(deadline: .now()) {
-//            for movie in self.movieArray{
-//                let rightMovieName = movie.replacingOccurrences(of: " ", with: "%20")
-//                self.network.getMovie(title: rightMovieName, completionHandler: completion)
-////                dispatchGroup.leave()
-//            }
-//        }
-        
     }
 }
 

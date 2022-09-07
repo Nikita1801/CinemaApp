@@ -29,7 +29,7 @@ final class DetailsMovieView: UIView {
     
     /// get info from ContainerViewController and set to labels
     /// - Parameter movieInfo: info about movie to present
-    func setInfo(movieInfo: MovieModel){
+    func setInfo(movieInfo: MovieModel) {
         nameLabel.text = movieInfo.title
         starRating.text = ratingsDisplay[(Int(Double(movieInfo.ratings) ?? 8))/2 - 1]
         runtimeLabel.text = movieInfo.runtime[1]
@@ -46,6 +46,7 @@ final class DetailsMovieView: UIView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
     }()
@@ -55,6 +56,7 @@ final class DetailsMovieView: UIView {
         label.textColor = UIColor.text
         label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         label.text = "112 min"
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         
         return label
@@ -65,6 +67,7 @@ final class DetailsMovieView: UIView {
         label.text = "★★★☆☆"
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = UIColor.systemOrange
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -73,6 +76,7 @@ final class DetailsMovieView: UIView {
         label.text = "Green Book"
         label.textColor = UIColor.title
         label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
@@ -81,6 +85,7 @@ final class DetailsMovieView: UIView {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
+        image.translatesAutoresizingMaskIntoConstraints = false
         
         return image
     }()
@@ -90,6 +95,7 @@ final class DetailsMovieView: UIView {
         imageView.image = UIImage(named: "R.image")
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
     }()
@@ -98,6 +104,7 @@ final class DetailsMovieView: UIView {
     private let genreStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
     }()
@@ -107,6 +114,7 @@ final class DetailsMovieView: UIView {
         label.textColor = UIColor.title
         label.text = "Genre"
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
@@ -116,6 +124,7 @@ final class DetailsMovieView: UIView {
         label.textColor = UIColor.text
         label.text = "Crime, Drama"
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
@@ -125,6 +134,7 @@ final class DetailsMovieView: UIView {
     private let directorsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
     }()
@@ -134,6 +144,7 @@ final class DetailsMovieView: UIView {
         label.textColor = UIColor.title
         label.text = "Directors"
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
@@ -143,6 +154,7 @@ final class DetailsMovieView: UIView {
         label.textColor = UIColor.text
         label.text = "Christopher Nolan"
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
@@ -152,6 +164,7 @@ final class DetailsMovieView: UIView {
     private let starsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
     }()
@@ -161,6 +174,7 @@ final class DetailsMovieView: UIView {
         label.textColor = UIColor.title
         label.text = "Stars"
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
@@ -170,6 +184,7 @@ final class DetailsMovieView: UIView {
         label.textColor = UIColor.text
         label.text = "Matthew McConaughey, Anne Hathaway, Jessica Chastain"
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
         
         
         return label
@@ -182,6 +197,7 @@ final class DetailsMovieView: UIView {
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.textAlignment = .justified
         label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
@@ -193,8 +209,7 @@ final class DetailsMovieView: UIView {
     }
 }
 
-
-private extension DetailsMovieView{
+private extension DetailsMovieView {
     // MARK: - Load image by URL
     func getPosterImage(posterURL: String, imageView: UIImageView){
         if let url = URL(string: posterURL) {
@@ -209,8 +224,7 @@ private extension DetailsMovieView{
         }
     }
 
-    
-    func configureView(){
+    func configureView() {
         backgroundColor = UIColor.background
         layer.cornerRadius = 5
         
@@ -238,24 +252,7 @@ private extension DetailsMovieView{
         setConstraints()
     }
     
-    func setConstraints(){
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        runtimeLabel.translatesAutoresizingMaskIntoConstraints = false
-        starRating.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        posterImage.translatesAutoresizingMaskIntoConstraints = false
-        ageRatingImageView.translatesAutoresizingMaskIntoConstraints = false
-        genreStackView.translatesAutoresizingMaskIntoConstraints = false
-        genreLabel.translatesAutoresizingMaskIntoConstraints = false
-        genreInfoLabel.translatesAutoresizingMaskIntoConstraints = false
-        directorsLabel.translatesAutoresizingMaskIntoConstraints = false
-        directorsInfoLabel.translatesAutoresizingMaskIntoConstraints = false
-        directorsStackView.translatesAutoresizingMaskIntoConstraints = false
-        starsLabel.translatesAutoresizingMaskIntoConstraints = false
-        starsStackView.translatesAutoresizingMaskIntoConstraints = false
-        starsInfoLabel.translatesAutoresizingMaskIntoConstraints = false
-        plotLabel.translatesAutoresizingMaskIntoConstraints = false
-        
+    func setConstraints() {
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
@@ -319,7 +316,7 @@ private extension DetailsMovieView{
     }
     
     /// draw dashed line (- - - -)
-    func drawDashedLine(){
+    func drawDashedLine() {
         //Create a CAShapeLayer
         let shapeLayer = CAShapeLayer()
         shapeLayer.strokeColor = UIColor.dashedLine.cgColor
@@ -336,50 +333,17 @@ private extension DetailsMovieView{
     
     
     func updateMask() {
-        let pathOne = UIBezierPath()
-        pathOne.move(to: bounds.origin)
-        let leftCorner = CGPoint(x: bounds.minX, y: bounds.minY)
-        pathOne.addArc(withCenter: leftCorner, radius: 20, startAngle: .pi, endAngle: 0, clockwise: false)
-        pathOne.addLine(to: CGPoint(x: bounds.maxX, y: bounds.minY))
-        pathOne.addLine(to: CGPoint(x: bounds.maxX, y: bounds.maxY))
-        pathOne.addLine(to: CGPoint(x: bounds.minX, y: bounds.maxY))
-        pathOne.close()
-        
-        let pathTwo = UIBezierPath()
-        pathTwo.move(to: bounds.origin)
+        let path = UIBezierPath()
+        path.move(to: bounds.origin)
         let center = CGPoint(x: bounds.midX, y: bounds.minY)
-        pathTwo.addArc(withCenter: center, radius: 25, startAngle: .pi, endAngle: 0, clockwise: false)
-        pathTwo.addLine(to: CGPoint(x: bounds.maxX, y: bounds.minY))
-        pathTwo.addLine(to: CGPoint(x: bounds.maxX, y: bounds.maxY))
-        pathTwo.addLine(to: CGPoint(x: bounds.minX, y: bounds.maxY))
-        pathTwo.close()
-        
-        let combined = UIBezierPath()
-        combined.append(pathOne)
-        combined.append(pathTwo)
+        path.addArc(withCenter: center, radius: 25, startAngle: .pi, endAngle: 0, clockwise: false)
+        path.addLine(to: CGPoint(x: bounds.maxX, y: bounds.minY))
+        path.addLine(to: CGPoint(x: bounds.maxX, y: bounds.maxY))
+        path.addLine(to: CGPoint(x: bounds.minX, y: bounds.maxY))
+        path.close()
         
         let mask = CAShapeLayer()
-        mask.path = pathTwo.cgPath
+        mask.path = path.cgPath
         self.layer.mask = mask
-        
-        
-        
-//        path.addArc(withCenter: center, radius: 30, startAngle: .pi, endAngle: 0, clockwise: false)
-//
-//        path.addArc(withCenter: leftCorner, radius: 20, startAngle: .pi, endAngle: 0, clockwise: false)
-//
-        
-        
-//
-//        let path = UIBezierPath()
-//
-//
-//        path.append(pathOne)
-//        path.append(pathTwo)
-        
-//        let combinedPath = CGMutablePath()
-//        combinedPath.addPath(pathOne.cgPath)
-//        combinedPath.addPath(pathTwo.cgPath)
-
     }
 }

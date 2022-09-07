@@ -9,7 +9,6 @@ import UIKit
 
 final class MovieCollectionViewCell: UICollectionViewCell {
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -89,7 +88,7 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     }()
     
     
-    func set(movie: MovieModel){
+    func set(movie: MovieModel) {
         nameLabel.text = movie.title
         genreLabel.text = "\(movie.genre) ·"
         yearLabel.text = movie.year
@@ -100,7 +99,7 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: - Load image by URL
-    private func getPosterImage(posterURL: String, imageView: UIImageView){
+    private func getPosterImage(posterURL: String, imageView: UIImageView) {
         if let url = URL(string: posterURL) {
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
                 guard let data = data, error == nil else { return }
@@ -113,7 +112,7 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private func configureView(){
+    private func configureView() {
         addSubview(posterImage)
         addSubview(infoBackground)
         addSubview(nameLabel)
@@ -170,6 +169,5 @@ final class MovieCollectionViewCell: UICollectionViewCell {
                                  height: 10)
         
     }
-    
 }
 

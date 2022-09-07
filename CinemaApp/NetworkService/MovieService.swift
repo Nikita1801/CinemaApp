@@ -9,20 +9,23 @@ import Foundation
 
 // https://www.omdbapi.com/?apikey=e1b20f1b&t=interstellar
 
-protocol MovieServiceProtocol{
+protocol MovieServiceProtocol {
     
     func getMovie(title: String, completionHandler: @escaping (MovieData?)  -> Void)
 }
 
-class MovieService: MovieServiceProtocol{
+class MovieService: MovieServiceProtocol {
     
-    func getMovie(title: String, completionHandler: @escaping (MovieData?) -> Void){
-        guard let url = URL(string: "https://www.omdbapi.com/?apikey=e1b20f1b&t=\(title)&plot=full") else{ return }
+    func getMovie(title: String, completionHandler: @escaping (MovieData?) -> Void) {
+        guard let url = URL(string: "https://www.omdbapi.com/?apikey=e1b20f1b&t=\(title)&plot=full") else {
+            completionHandler(nil)
+            return
+        }
 
         getRequest(url: url) { data in
             guard let data = data,
                   let model = try? JSONDecoder().decode(MovieData.self, from: data)
-            else{
+            else {
                 print("Error while decoding")
                 completionHandler(nil)
                 return
@@ -32,9 +35,9 @@ class MovieService: MovieServiceProtocol{
     }
 }
 
-private extension MovieService{
+private extension MovieService {
     
-    func getRequest(url: URL, completion: @escaping (Data?)->Void){
+    func getRequest(url: URL, completion: @escaping (Data?)->Void) {
         let task = URLSession.shared.dataTask(with: url) { data, _, error in
             guard let data = data, error == nil
             else{

@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ProfileViewControllerDelegate: AnyObject{
+protocol ProfileViewControllerDelegate: AnyObject {
     /// closing profile side-menu
     func closeProfile()
 }
@@ -28,6 +28,7 @@ final class ProfileViewController: UIViewController {
         button.layer.cornerRadius = 20
         button.tintColor = UIColor.title
         button.backgroundColor = UIColor.backgroundLight
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(didTapCloseButton), for: .touchUpInside)
         
         return button
@@ -38,6 +39,7 @@ final class ProfileViewController: UIViewController {
         label.textColor = UIColor.title
         label.font = UIFont.systemFont(ofSize: 24, weight: .medium)
         label.text = "Nikita Makarevich"
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         
         return label
@@ -48,6 +50,7 @@ final class ProfileViewController: UIViewController {
         label.textColor = UIColor.text
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.text = "Male | Born 18.01.2003"
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         
         return label
@@ -59,6 +62,7 @@ final class ProfileViewController: UIViewController {
         imageView.layer.borderWidth = 5
         imageView.layer.borderColor = UIColor.backgroundLight.cgColor
         imageView.layer.cornerRadius = 100
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.masksToBounds = true
         
         return imageView
@@ -69,6 +73,7 @@ final class ProfileViewController: UIViewController {
         label.textColor = UIColor.text
         label.font = UIFont.systemFont(ofSize: 14, weight: .light)
         label.text = "+7(916) 968-81-12"
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         
         return label
@@ -79,6 +84,7 @@ final class ProfileViewController: UIViewController {
         label.textColor = UIColor.text
         label.font = UIFont.systemFont(ofSize: 14, weight: .light)
         label.text = "nikita-makarevich@mail.ru"
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         
         return label
@@ -94,6 +100,7 @@ final class ProfileViewController: UIViewController {
         button.layer.borderColor = UIColor.backgroundLight.cgColor
         button.layer.cornerRadius = 30
         button.layer.masksToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
     }()
@@ -107,6 +114,7 @@ final class ProfileViewController: UIViewController {
         button.contentMode = .center
         button.layer.cornerRadius = 30
         button.layer.masksToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
     }()
@@ -114,18 +122,19 @@ final class ProfileViewController: UIViewController {
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
     }()
     
-    @objc func didTapCloseButton(){
+    @objc func didTapCloseButton() {
         delegate?.closeProfile()
     }
 }
 
 private extension ProfileViewController{
     
-    func configureView(){
+    func configureView() {
         view.backgroundColor = UIColor.background
         
         view.addSubview(closeButton)
@@ -141,17 +150,7 @@ private extension ProfileViewController{
         setConstraints()
     }
     
-    func setConstraints(){
-        closeButton.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        bioLabel.translatesAutoresizingMaskIntoConstraints = false
-        photo.translatesAutoresizingMaskIntoConstraints = false
-        phoneLabel.translatesAutoresizingMaskIntoConstraints = false
-        emailLabel.translatesAutoresizingMaskIntoConstraints = false
-        phoneButton.translatesAutoresizingMaskIntoConstraints = false
-        messageButton.translatesAutoresizingMaskIntoConstraints = false
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
+    func setConstraints() {
         
         NSLayoutConstraint.activate([
             closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),

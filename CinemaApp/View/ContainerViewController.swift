@@ -49,13 +49,12 @@ extension ContainerViewController: MovieViewControllerDelegate{
         
         setCostraints()
     }
+    
     /// adding GestureRecognizer to detailsView
-    private func configureView(){
+    private func configureView() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(removeDetailsView))
         detailsView.addGestureRecognizer(tap)
     }
-    
-
 }
 
 extension ContainerViewController: ProfileViewControllerDelegate{
@@ -72,7 +71,7 @@ extension ContainerViewController: ProfileViewControllerDelegate{
 private extension ContainerViewController{
     
     /// configure views
-    func addChildVCs(){
+    func addChildVCs() {
         // profile
         profileViewController.delegate = self
         addChild(profileViewController)
@@ -88,7 +87,7 @@ private extension ContainerViewController{
         self.navigationViewController = navigationVC
     }
     
-    func setCostraints(){
+    func setCostraints() {
         detailsView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -101,7 +100,7 @@ private extension ContainerViewController{
         ])
     }
     /// hiding view when tap
-    @objc func removeDetailsView(){
+    @objc func removeDetailsView() {
         detailsView.removeFromSuperview()
         darkView.removeFromSuperview()
     }

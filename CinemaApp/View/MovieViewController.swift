@@ -7,19 +7,18 @@
 
 import UIKit
 
-protocol MovieViewControllerProtocol: AnyObject{
+protocol MovieViewControllerProtocol: AnyObject {
     /// Обновление информации о фильмах
     /// - Parameter movies: список фильмов в формате презентации
     func updateMovies(_ movies: [MovieModel])
 }
 
-protocol MovieViewControllerDelegate: AnyObject{
+protocol MovieViewControllerDelegate: AnyObject {
     /// Открытие профиля
     func didTapProfileButton()
     /// Открытие DetailsView с детальной информацией о фильме
     func didTapMovie(movieInfo: MovieModel)
 }
-
 
 final class MovieViewController: UIViewController {
     
@@ -35,7 +34,6 @@ final class MovieViewController: UIViewController {
         view.backgroundColor = UIColor.background
         self.navigationController?.navigationBar.backgroundColor = UIColor.background
         
-        
         presenter = MoviePresenter(movieViewController: self)
         getMovieInfo()
         configureView()
@@ -43,19 +41,14 @@ final class MovieViewController: UIViewController {
         moviesCollectionView.reloadData()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-    
     // MARK: - Right and Left BarItems
-    private func configureRightBarItem(){
+    private func configureRightBarItem() {
         let item = UIBarButtonItem(image: UIImage.init(systemName: "magnifyingglass"), style: .done, target: self, action: #selector(searchButtonTapped))
         navigationItem.rightBarButtonItem = item
         navigationItem.rightBarButtonItem?.tintColor = UIColor.title
     }
     
-    private func configureLeftBarItem(){
+    private func configureLeftBarItem() {
         let item = UIBarButtonItem(image: UIImage.init(systemName: "person.crop.circle"), style: .done, target: self, action: #selector(profileButtonTapped(_:)))
         navigationItem.leftBarButtonItem = item
         navigationItem.leftBarButtonItem?.tintColor = UIColor.title
@@ -74,20 +67,19 @@ final class MovieViewController: UIViewController {
         return collectionView
     }()
     
-    @objc private func searchButtonTapped(){
-        
+    /// Действие для кнопки поиска
+    @objc private func searchButtonTapped() {
         presenter?.searchButtonTapped()
     }
     
-    @objc private func profileButtonTapped(_ sender: UIBarButtonItem){
+    /// Открытие профиля (side-menu)
+    @objc private func profileButtonTapped(_ sender: UIBarButtonItem) {
         delegate?.didTapProfileButton()
     }
-    
-    
 }
 
 // MARK: - CollectionView extension
-extension MovieViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
+extension MovieViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         movieInfo.count
     }
@@ -107,14 +99,11 @@ extension MovieViewController: UICollectionViewDelegateFlowLayout, UICollectionV
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movieDetails = movieInfo[indexPath.row]
         delegate?.didTapMovie(movieInfo: movieDetails)
-
-        
     }
-    
 }
 
 // MARK: - Updating Data protocol extension
-extension MovieViewController: MovieViewControllerProtocol{
+extension MovieViewController: MovieViewControllerProtocol {
     
     func updateMovies(_ movies: [MovieModel]) {
             movieInfo = movies
@@ -123,7 +112,7 @@ extension MovieViewController: MovieViewControllerProtocol{
 }
 
 
-private extension MovieViewController{
+private extension MovieViewController {
     
     func getMovieInfo(){
         presenter?.getMovies()
